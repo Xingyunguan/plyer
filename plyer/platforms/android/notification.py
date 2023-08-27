@@ -24,8 +24,17 @@ class AndroidNotification(Notification):
     '''
 
     def __init__(self):
+        package_name = activity.getPackageName()
         self._ns = None
-        self._channel_id = None
+        self._channel_id = package_name
+
+        pm = activity.getPackageManager()
+        info = pm.getActivityInfo(activity.getComponentName(), 0)
+        if info.icon == 0:
+            # Take the application icon instead.
+            info = pm.getApplicationInfo(package_name, 0)
+
+        self._app_icon = info.icon
 
     def _get_notification_service(self):
         if not self._ns:
@@ -82,12 +91,10 @@ class AndroidNotification(Notification):
 
         .. versionadded:: 1.4.0
         '''
-
-        app_icon = Drawable.your_icon_name_without_extensionname
+        app_icon = self._app_icon
         notification.setSmallIcon(app_icon)
 
         bitmap_icon = app_icon
-
         if icon is not None:
             bitmap_icon = BitmapFactory.decodeFile(icon)
             notification.setLargeIcon(bitmap_icon)
