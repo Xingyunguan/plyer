@@ -45,7 +45,7 @@ class Notification:
     Notification facade.
     '''
 
-    def notify(self, chan=1, title='', message='', app_name='', app_icon='',
+    def notify(self, chan=10, title='', message='', app_name='', app_icon='',
                timeout=10, ticker='', toast=False, hints={}):
         '''
         Send a notification.
@@ -82,7 +82,7 @@ class Notification:
         '''
 
         self._notify(
-            chan=1, title=title, message=message,
+            chan=10, title=title, message=message,
             app_icon=app_icon, app_name=app_name,
             timeout=timeout, ticker=ticker, toast=toast, hints=hints
         )
